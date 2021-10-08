@@ -41,28 +41,21 @@
     const _b = document.getElementById('b');
     const _fps = document.getElementById('fps');
     let flag = false;
+    const then = Date.now();
+    let fpsCount = 0;
+
     const run = () => {
       _b.style.display = flag ? 'block' : 'none';
       flag = !flag;
+      fpsCount++;
+      if (fpsCount % 20 === 0) {
+        var time = (Date.now() - then) / fpsCount;
+        var ms = Math.round(time * 1000) / 1000;
+        var fps = Math.round(100000 / ms) / 100;
+        _fps.textContent = `${fps} fps`;
+      }
       requestAnimationFrame(run);
     };
     run();
-
-    var then = Date.now();
-    var count = 0;
-
-    function nextFrame() {
-      requestAnimationFrame(function () {
-        count++;
-        if (count % 20 === 0) {
-          var time = (Date.now() - then) / count;
-          var ms = Math.round(time * 1000) / 1000;
-          var fps = Math.round(100000 / ms) / 100;
-          _fps.textContent = `${fps} fps`;
-        }
-        nextFrame();
-      });
-    }
-    nextFrame();
   </script>
 </html>
