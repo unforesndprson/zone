@@ -25,13 +25,21 @@
       top: 0;
       background-color: skyblue;
     }
+    #fps {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      color: green;
+    }
   </style>
   <body>
     <div id="a" class="box"></div>
     <div id="b" class="box"></div>
+    <div id="fps">wait</div>
   </body>
   <script>
     const _b = document.getElementById('b');
+    const _fps = document.getElementById('fps');
     let flag = false;
     const run = () => {
       _b.style.display = flag ? 'block' : 'none';
@@ -39,5 +47,22 @@
       requestAnimationFrame(run);
     };
     run();
+
+    var then = Date.now();
+    var count = 0;
+
+    function nextFrame() {
+      requestAnimationFrame(function () {
+        count++;
+        if (count % 20 === 0) {
+          var time = (Date.now() - then) / count;
+          var ms = Math.round(time * 1000) / 1000;
+          var fps = Math.round(100000 / ms) / 100;
+          _fps.textContent = `${fps} fps`;
+        }
+        nextFrame();
+      });
+    }
+    nextFrame();
   </script>
 </html>
